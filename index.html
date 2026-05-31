@@ -823,7 +823,7 @@
     return String(str).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
   }
 
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzEscaZzUvSJhVlCgREUGeQbYcMgwIzPAhxS2Bk_aXOkEjykokc79oE8007XWDQA73K/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyIfOGcxYMREZIhAaBcaydbozTVyyHCuZml4D4hlHOTWdlsgLQvueg72rPt-i1GRhm9/exec';
 
   function submitForm() {
     const city = document.getElementById('f-city').value;
@@ -847,13 +847,20 @@
     leads.unshift(data);
     saveLeads();
 
-    // ارسال به Google Sheets
-    fetch(SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    }).catch(err => console.log('Sheet error:', err));
+    // ارسال به Google Sheets با روش GET
+    const params = new URLSearchParams({
+      city: data.city || '',
+      budget: data.budget || '',
+      buy_type: data.buy_type || '',
+      purpose: data.purpose || '',
+      urgency: data.urgency || '',
+      model: data.model || '',
+      phone: data.phone || '',
+      score: data.score || '',
+      tier: data.tier || ''
+    });
+    const img = new Image();
+    img.src = SCRIPT_URL + '?' + params.toString();
 
     document.getElementById('formInner').style.display = 'none';
     document.getElementById('successBox').classList.add('show');
