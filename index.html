@@ -847,7 +847,7 @@
     leads.unshift(data);
     saveLeads();
 
-    // ارسال به Google Sheets با روش GET
+    // ارسال به Google Sheets
     const params = new URLSearchParams({
       city: data.city || '',
       budget: data.budget || '',
@@ -859,6 +859,11 @@
       score: data.score || '',
       tier: data.tier || ''
     });
+    fetch(SCRIPT_URL + '?' + params.toString(), {
+      method: 'GET',
+      mode: 'no-cors'
+    }).catch(() => {});
+    // backup روش
     const img = new Image();
     img.src = SCRIPT_URL + '?' + params.toString();
 
